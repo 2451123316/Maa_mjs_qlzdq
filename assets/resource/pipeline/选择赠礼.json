@@ -1,28 +1,4 @@
 {
-    "$__mpe_config_选择赠礼": {
-        "$__mpe_code": {
-            "prefix": "",
-            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
-            "lastSyncTime": 1782379429323,
-            "isModifiedExternally": false,
-            "coordinateMode": "absolute-v1",
-            "savedViewport": {
-                "x": 65,
-                "y": -166,
-                "zoom": 0.79
-            },
-            "filename": "选择赠礼",
-            "version": "v1.6.2"
-        }
-    },
-    "$__mpe_external_判断事件_选择赠礼": {
-        "$__mpe_code": {
-            "position": {
-                "x": 1089,
-                "y": 838
-            }
-        }
-    },
     "不拿信物": {
         "recognition": {
             "type": "OCR",
@@ -43,13 +19,7 @@
         },
         "next": [
             "驰援"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 360,
-                "y": 582
-            }
-        }
+        ]
     },
     "信物": {
         "recognition": {
@@ -74,13 +44,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 744,
-                "y": 116
-            }
-        }
+        ]
     },
     "必拿赠礼": {
         "recognition": {
@@ -107,13 +71,7 @@
         },
         "next": [
             "信物"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 334,
-                "y": 36
-            }
-        }
+        ]
     },
     "选择赠礼": {
         "recognition": {
@@ -138,13 +96,7 @@
         ],
         "on_error": [
             "确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": -23,
-                "y": 389
-            }
-        }
+        ]
     },
     "驰援": {
         "recognition": {
@@ -168,13 +120,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 714,
-                "y": 634
-            }
-        }
+        ]
     },
     "必拿驰援": {
         "recognition": {
@@ -202,13 +148,7 @@
         },
         "next": [
             "驰援排序"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 345,
-                "y": 291
-            }
-        }
+        ]
     },
     "驰援排序": {
         "recognition": {
@@ -233,20 +173,6 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 738,
-                "y": 358
-            }
-        }
-    },
-    "$__mpe_external_确认_选择赠礼": {
-        "$__mpe_code": {
-            "position": {
-                "x": 385,
-                "y": 904
-            }
-        }
+        ]
     }
 }

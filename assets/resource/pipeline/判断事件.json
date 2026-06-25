@@ -1,44 +1,4 @@
 {
-    "$__mpe_config_判断事件": {
-        "$__mpe_code": {
-            "prefix": "",
-            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\判断事件.json",
-            "lastSyncTime": 1782381436632,
-            "isModifiedExternally": false,
-            "coordinateMode": "absolute-v1",
-            "savedViewport": {
-                "x": 46,
-                "y": -590,
-                "zoom": 0.5
-            },
-            "filename": "判断事件",
-            "version": "v1.6.2"
-        }
-    },
-    "$__mpe_external_临时战斗_判断事件": {
-        "$__mpe_code": {
-            "position": {
-                "x": 2096,
-                "y": 1464
-            }
-        }
-    },
-    "$__mpe_external_信物_判断事件": {
-        "$__mpe_code": {
-            "position": {
-                "x": -78,
-                "y": 1867
-            }
-        }
-    },
-    "$__mpe_external_驰援_判断事件": {
-        "$__mpe_code": {
-            "position": {
-                "x": -91,
-                "y": 1737
-            }
-        }
-    },
     "事件战斗": {
         "recognition": {
             "type": "OCR",
@@ -59,13 +19,7 @@
         },
         "next": [
             "临时战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1579,
-                "y": 1830
-            }
-        }
+        ]
     },
     "事件确认": {
         "recognition": {
@@ -88,13 +42,7 @@
         "next": [
             "事件确认",
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1591,
-                "y": 2099
-            }
-        }
+        ]
     },
     "事件选项": {
         "recognition": {
@@ -146,13 +94,7 @@
             "事件战斗",
             "事件确认",
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 669,
-                "y": 2080
-            }
-        }
+        ]
     },
     "停止转动": {
         "recognition": {
@@ -174,13 +116,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1763,
-                "y": 417
-            }
-        }
+        ]
     },
     "偶遇朏朏": {
         "recognition": {
@@ -204,13 +140,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1003,
-                "y": 1807
-            }
-        }
+        ]
     },
     "判断事件": {
         "next": [
@@ -227,13 +157,7 @@
             "属性变化",
             "驰援",
             "信物"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 12,
-                "y": 1412
-            }
-        }
+        ]
     },
     "十常侍": {
         "recognition": {
@@ -255,13 +179,7 @@
         },
         "next": [
             "十常侍选择事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 332,
-                "y": 855
-            }
-        }
+        ]
     },
     "十常侍的蛊惑": {
         "recognition": {
@@ -286,13 +204,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1165,
-                "y": 948
-            }
-        }
+        ]
     },
     "十常侍选择事件": {
         "recognition": {
@@ -314,13 +226,7 @@
         },
         "next": [
             "十常侍的蛊惑"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 681,
-                "y": 917
-            }
-        }
+        ]
     },
     "属性变化": {
         "recognition": {
@@ -351,13 +257,7 @@
         "next": [
             "事件确认",
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1645,
-                "y": 1538
-            }
-        }
+        ]
     },
     "开始对局": {
         "recognition": {
@@ -379,13 +279,7 @@
         },
         "next": [
             "临时战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 733,
-                "y": 1416
-            }
-        }
+        ]
     },
     "拒绝投喂": {
         "recognition": {
@@ -407,13 +301,7 @@
         },
         "next": [
             "停止转动"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1226,
-                "y": 429
-            }
-        }
+        ]
     },
     "朏朏": {
         "recognition": {
@@ -435,13 +323,7 @@
         },
         "next": [
             "朏朏选择事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 327,
-                "y": 1730
-            }
-        }
+        ]
     },
     "朏朏选择事件": {
         "recognition": {
@@ -466,13 +348,7 @@
         ],
         "on_error": [
             "朏朏"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 690,
-                "y": 1759
-            }
-        }
+        ]
     },
     "火堆": {
         "recognition": {
@@ -495,13 +371,7 @@
         "next": [
             "火堆选择",
             "火堆"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 332,
-                "y": 574
-            }
-        }
+        ]
     },
     "火堆选择": {
         "recognition": {
@@ -528,13 +398,7 @@
         ],
         "on_error": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 681,
-                "y": 614
-            }
-        }
+        ]
     },
     "点击继续": {
         "recognition": {
@@ -556,13 +420,7 @@
         },
         "next": [
             "属性变化"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1401,
-                "y": 1230
-            }
-        }
+        ]
     },
     "狗卡": {
         "recognition": {
@@ -584,13 +442,7 @@
         },
         "next": [
             "狗卡选择事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 333,
-                "y": 293
-            }
-        }
+        ]
     },
     "狗卡选择事件": {
         "recognition": {
@@ -615,13 +467,7 @@
         ],
         "on_error": [
             "狗卡"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 671,
-                "y": 383
-            }
-        }
+        ]
     },
     "福袋": {
         "recognition": {
@@ -645,13 +491,7 @@
             "事件选项",
             "福袋",
             "项羽事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 332,
-                "y": 2014
-            }
-        }
+        ]
     },
     "诸葛亮": {
         "recognition": {
@@ -673,13 +513,7 @@
         },
         "next": [
             "选择武将"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 332,
-                "y": 1136
-            }
-        }
+        ]
     },
     "诸葛亮事件": {
         "recognition": {
@@ -704,13 +538,7 @@
         "next": [
             "点击继续",
             "诸葛亮事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1031,
-                "y": 1220
-            }
-        }
+        ]
     },
     "退出商店": {
         "recognition": {
@@ -740,13 +568,7 @@
         },
         "next": [
             "退出提示"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 655,
-                "y": 66
-            }
-        }
+        ]
     },
     "退出提示": {
         "recognition": {
@@ -768,13 +590,7 @@
         },
         "next": [
             "判断事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 994,
-                "y": 186
-            }
-        }
+        ]
     },
     "选择武将": {
         "recognition": {
@@ -796,13 +612,7 @@
         },
         "next": [
             "诸葛亮事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 668,
-                "y": 1196
-            }
-        }
+        ]
     },
     "默认战斗": {
         "recognition": {
@@ -835,13 +645,7 @@
         ],
         "on_error": [
             "默认战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 333,
-                "y": 1417
-            }
-        }
+        ]
     },
     "项羽事件": {
         "recognition": {
@@ -863,12 +667,6 @@
         },
         "next": [
             "临时战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 669,
-                "y": 2333
-            }
-        }
+        ]
     }
 }

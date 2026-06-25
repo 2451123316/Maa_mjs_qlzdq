@@ -1,20 +1,4 @@
 {
-    "$__mpe_config_千里开局": {
-        "$__mpe_code": {
-            "prefix": "",
-            "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782373643126,
-            "isModifiedExternally": false,
-            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\千里开局.json",
-            "savedViewport": {
-                "x": -709,
-                "y": 164,
-                "zoom": 0.94
-            },
-            "filename": "千里开局",
-            "version": "v1.6.2"
-        }
-    },
     "千里开局": {
         "recognition": {
             "type": "TemplateMatch",
@@ -43,13 +27,7 @@
         },
         "next": [
             "选将吕布"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": -18,
-                "y": 93
-            }
-        }
+        ]
     },
     "对局": {
         "recognition": {
@@ -71,13 +49,7 @@
         },
         "next": [
             "临时战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1622,
-                "y": 61
-            }
-        }
+        ]
     },
     "开始挑战": {
         "recognition": {
@@ -99,13 +71,7 @@
         },
         "next": [
             "战斗1"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 972,
-                "y": 41
-            }
-        }
+        ]
     },
     "战斗1": {
         "recognition": {
@@ -139,13 +105,7 @@
         ],
         "on_error": [
             "战斗1"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1292,
-                "y": 25
-            }
-        }
+        ]
     },
     "退出选将": {
         "recognition": {
@@ -175,13 +135,7 @@
         },
         "next": [
             "开始挑战"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 652,
-                "y": 59
-            }
-        }
+        ]
     },
     "选将吕布": {
         "recognition": {
@@ -203,20 +157,6 @@
         },
         "next": [
             "退出选将"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 332,
-                "y": 15
-            }
-        }
-    },
-    "$__mpe_external_临时战斗_千里开局": {
-        "$__mpe_code": {
-            "position": {
-                "x": 2033,
-                "y": 34
-            }
-        }
+        ]
     }
 }
