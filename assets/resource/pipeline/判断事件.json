@@ -3,12 +3,12 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\判断事件.json",
-            "lastSyncTime": 1782374839598,
+            "lastSyncTime": 1782375803122,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 65,
-                "y": -949,
+                "x": 137,
+                "y": -883,
                 "zoom": 0.8
             },
             "filename": "判断事件",
@@ -813,18 +813,19 @@
                     336
                 ],
                 "template": [
-                    "战斗.png"
+                    "战斗.png",
+                    "战斗图2.png"
                 ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [
-                    717,
-                    358,
-                    38,
-                    37
+                "target_offset": [
+                    -17,
+                    -39,
+                    33,
+                    22
                 ]
             }
         },
