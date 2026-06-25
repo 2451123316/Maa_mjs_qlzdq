@@ -5,6 +5,8 @@
     // 示例：https://github.com/MaaXYZ/MaaFramework/blob/main/sample/interface.json
     "interface_version": 2,
     "name": "Maa名将杀千里走单骑本软件纯免费，收费请退款，有问题请进群1015990545",
+    "title": "Maa名将杀千里走单骑本软件纯免费，收费请退款，有问题请进群1015990545",
+    "label": "Maa名将杀千里走单骑本软件纯免费，收费请退款，有问题请进群1015990545",
     "description": "这是一个名将杀千里走单骑自动脚本。",
     "contact": "QQ群: 1015990545",
     "license": "MIT",
@@ -52,14 +54,17 @@
         }
     ],
     "preset": [
-        {
+            {
             "name": "千里走单骑入口",
                 "task": [
                     {
                         "name": "千里走单骑入口"
                     }
                 ]
+            },{
+            "name": "本软件纯免费，如若付费购买请立即退款，交流群1015990545"
             }
+            
     ],
     "task": [
         {
