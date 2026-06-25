@@ -1,0 +1,364 @@
+{
+    "$__mpe_config_临时战斗": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
+            "lastSyncTime": 1782367886884,
+            "isDeleted": true,
+            "isModifiedExternally": false,
+            "coordinateMode": "absolute-v1",
+            "savedViewport": {
+                "x": -1783,
+                "y": -201,
+                "zoom": 0.94
+            },
+            "filename": "临时战斗",
+            "version": "v1.6.2"
+        }
+    },
+    "$__mpe_external_判断事件_临时战斗": {
+        "$__mpe_code": {
+            "position": {
+                "x": 341,
+                "y": 803
+            }
+        }
+    },
+    "$__mpe_external_千里开局_临时战斗": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3212,
+                "y": 656
+            }
+        }
+    },
+    "$__mpe_external_属性变化_临时战斗": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2930,
+                "y": 145
+            }
+        }
+    },
+    "$__mpe_external_选择赠礼_临时战斗": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2572,
+                "y": 152
+            }
+        }
+    },
+    "下一步": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    580,
+                    612,
+                    120,
+                    49
+                ],
+                "expected": [
+                    "下一步"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1932,
+                "y": 513
+            }
+        }
+    },
+    "临时战斗": {
+        "next": [
+            "关闭"
+        ],
+        "on_error": [
+            "判断事件"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 12,
+                "y": 546
+            }
+        }
+    },
+    "关闭": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    677,
+                    409,
+                    89,
+                    51
+                ],
+                "expected": [
+                    "关闭"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "设置",
+            "托管"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 332,
+                "y": 485
+            }
+        }
+    },
+    "战斗结束确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    550,
+                    546,
+                    170,
+                    67
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "属性变化"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2572,
+                "y": 292
+            }
+        }
+    },
+    "托管": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    1211,
+                    148,
+                    45,
+                    42
+                ],
+                "template": [
+                    "托管.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 5000,
+        "next": [
+            "验证托管"
+        ],
+        "on_error": [
+            "托管"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 980,
+                "y": 459
+            }
+        }
+    },
+    "点击空白": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    530,
+                    490,
+                    217,
+                    81
+                ],
+                "expected": [
+                    "点击空白处继续"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "千里开局"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2892,
+                "y": 581
+            }
+        }
+    },
+    "点击空白下一步": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    520,
+                    623,
+                    236,
+                    41
+                ],
+                "expected": [
+                    "点击空白"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "下一步"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1612,
+                "y": 485
+            }
+        }
+    },
+    "确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    599,
+                    604,
+                    79,
+                    46
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "rate_limit": 3000,
+        "next": [
+            "选择赠礼",
+            "领取奖励",
+            "属性变化",
+            "战斗结束确认"
+        ],
+        "on_error": [
+            "确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2218,
+                "y": 473
+            }
+        }
+    },
+    "设置": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    1202,
+                    60,
+                    57,
+                    55
+                ],
+                "template": [
+                    "设置.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 5000,
+        "next": [
+            "关闭",
+            "托管"
+        ],
+        "on_error": [
+            "设置"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 652,
+                "y": 462
+            }
+        }
+    },
+    "领取奖励": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    544,
+                    596,
+                    192,
+                    62
+                ],
+                "expected": [
+                    "领取奖励"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "点击空白"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2572,
+                "y": 581
+            }
+        }
+    },
+    "验证托管": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    485,
+                    550,
+                    92,
+                    73
+                ],
+                "expected": [
+                    "离开中"
+                ]
+            }
+        },
+        "timeout": -1,
+        "rate_limit": 3000,
+        "next": [
+            "点击空白下一步"
+        ],
+        "on_error": [
+            "托管"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1294,
+                "y": 497
+            }
+        }
+    }
+}

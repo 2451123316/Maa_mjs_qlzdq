@@ -1,0 +1,213 @@
+{
+    "$__mpe_config_千里开局": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1782354209397,
+            "isModifiedExternally": false,
+            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\千里开局.json",
+            "savedViewport": {
+                "x": -988,
+                "y": 151,
+                "zoom": 0.94
+            },
+            "filename": "千里开局",
+            "version": "v1.6.2"
+        }
+    },
+    "千里开局": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    1001,
+                    573,
+                    224,
+                    86
+                ],
+                "template": [
+                    "开始挑战.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1056,
+                    340,
+                    107,
+                    115
+                ]
+            }
+        },
+        "next": [
+            "选将吕布"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": -18,
+                "y": 93
+            }
+        }
+    },
+    "对局": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    379,
+                    590,
+                    183,
+                    46
+                ],
+                "expected": [
+                    "开始对局"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "临时战斗"
+        ],
+        "on_error": [
+            "战斗1"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1622,
+                "y": 61
+            }
+        }
+    },
+    "开始挑战": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1023,
+                    590,
+                    178,
+                    54
+                ],
+                "expected": [
+                    "开始挑战"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "战斗1"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 972,
+                "y": 41
+            }
+        }
+    },
+    "战斗1": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    433,
+                    282,
+                    29,
+                    24
+                ],
+                "template": [
+                    "战斗.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "对局"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1292,
+                "y": 25
+            }
+        }
+    },
+    "退出选将": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    1154,
+                    135,
+                    55,
+                    57
+                ],
+                "template": [
+                    "史诗稀有度.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    463,
+                    198,
+                    509,
+                    200
+                ]
+            }
+        },
+        "next": [
+            "开始挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 652,
+                "y": 59
+            }
+        }
+    },
+    "选将吕布": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    100,
+                    506,
+                    1107,
+                    173
+                ],
+                "template": [
+                    "吕布.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出选将"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 332,
+                "y": 15
+            }
+        }
+    },
+    "$__mpe_external_临时战斗_千里开局": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2033,
+                "y": 34
+            }
+        }
+    }
+}

@@ -1,0 +1,182 @@
+{
+    "$__mpe_config_选择赠礼": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
+            "lastSyncTime": 1782360491635,
+            "isModifiedExternally": false,
+            "coordinateMode": "absolute-v1",
+            "savedViewport": {
+                "x": 183,
+                "y": -149,
+                "zoom": 0.79
+            },
+            "filename": "选择赠礼",
+            "version": "v1.6.2"
+        }
+    },
+    "$__mpe_external_判断事件_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": 1089,
+                "y": 838
+            }
+        }
+    },
+    "不拿信物": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    531,
+                    504,
+                    220,
+                    51
+                ],
+                "expected": [
+                    "赠礼"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "驰援"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 330,
+                "y": 581
+            }
+        }
+    },
+    "信物": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    522,
+                    171,
+                    171,
+                    377
+                ],
+                "expected": [
+                    "信物",
+                    "驰援",
+                    "资助"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "判断事件"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 738,
+                "y": 348
+            }
+        }
+    },
+    "必拿赠礼": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    179,
+                    509,
+                    929,
+                    49
+                ],
+                "expected": [
+                    "马超",
+                    "吕布",
+                    "关羽"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "信物"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 332,
+                "y": 266
+            }
+        }
+    },
+    "选择赠礼": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    570,
+                    597,
+                    135,
+                    48
+                ],
+                "expected": [
+                    "接受谁的"
+                ]
+            }
+        },
+        "next": [
+            "必拿赠礼",
+            "不拿信物",
+            "判断事件"
+        ],
+        "on_error": [
+            "确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": -23,
+                "y": 389
+            }
+        }
+    },
+    "驰援": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    493,
+                    174,
+                    232,
+                    371
+                ],
+                "expected": [
+                    "驰援",
+                    "资助",
+                    "武将牌"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "判断事件"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 686,
+                "y": 634
+            }
+        }
+    },
+    "$__mpe_external_确认_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": 385,
+                "y": 904
+            }
+        }
+    }
+}
