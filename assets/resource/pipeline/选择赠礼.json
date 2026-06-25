@@ -3,12 +3,12 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
-            "lastSyncTime": 1782360491635,
+            "lastSyncTime": 1782379429323,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 183,
-                "y": -149,
+                "x": 65,
+                "y": -166,
                 "zoom": 0.79
             },
             "filename": "选择赠礼",
@@ -46,8 +46,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 330,
-                "y": 581
+                "x": 360,
+                "y": 582
             }
         }
     },
@@ -64,7 +64,8 @@
                 "expected": [
                     "信物",
                     "驰援",
-                    "资助"
+                    "资助",
+                    "武将牌"
                 ]
             }
         },
@@ -76,8 +77,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 738,
-                "y": 348
+                "x": 744,
+                "y": 116
             }
         }
     },
@@ -94,7 +95,10 @@
                 "expected": [
                     "马超",
                     "吕布",
-                    "关羽"
+                    "关羽",
+                    "甘宁",
+                    "黄忠",
+                    "赵云"
                 ]
             }
         },
@@ -106,8 +110,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 332,
-                "y": 266
+                "x": 334,
+                "y": 36
             }
         }
     },
@@ -128,6 +132,7 @@
         },
         "next": [
             "必拿赠礼",
+            "必拿驰援",
             "不拿信物",
             "判断事件"
         ],
@@ -166,8 +171,73 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 686,
+                "x": 714,
                 "y": 634
+            }
+        }
+    },
+    "必拿驰援": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    179,
+                    509,
+                    929,
+                    49
+                ],
+                "expected": [
+                    "刘禅",
+                    "曹丕",
+                    "孙权",
+                    "鲁肃",
+                    "曹仁",
+                    "陈宫",
+                    "孙坚"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "驰援排序"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 345,
+                "y": 291
+            }
+        }
+    },
+    "驰援排序": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    522,
+                    171,
+                    171,
+                    377
+                ],
+                "expected": [
+                    "驰援",
+                    "资助",
+                    "武将牌",
+                    "信物"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "判断事件"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 738,
+                "y": 358
             }
         }
     },

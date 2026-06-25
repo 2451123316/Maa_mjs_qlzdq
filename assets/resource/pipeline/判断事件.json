@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\判断事件.json",
-            "lastSyncTime": 1782375803122,
+            "lastSyncTime": 1782381436632,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 137,
-                "y": -883,
-                "zoom": 0.8
+                "x": 46,
+                "y": -590,
+                "zoom": 0.5
             },
             "filename": "判断事件",
             "version": "v1.6.2"
@@ -132,7 +132,8 @@
                     "不予搭理",
                     "找人调查",
                     "人间之事",
-                    "分粮诱敌"
+                    "分粮诱敌",
+                    "条件"
                 ]
             }
         },
@@ -219,7 +220,8 @@
             "狗卡",
             "诸葛亮",
             "火堆",
-            "福袋"
+            "福袋",
+            "事件战斗"
         ],
         "on_error": [
             "属性变化",
@@ -380,8 +382,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 736,
-                "y": 1390
+                "x": 733,
+                "y": 1416
             }
         }
     },
@@ -467,8 +469,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 675,
-                "y": 1763
+                "x": 690,
+                "y": 1759
             }
         }
     },
@@ -807,14 +809,13 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    407,
-                    209,
-                    374,
-                    336
+                    398,
+                    203,
+                    390,
+                    349
                 ],
                 "template": [
-                    "战斗.png",
-                    "战斗图2.png"
+                    "战斗3.png"
                 ]
             }
         },
@@ -822,10 +823,10 @@
             "type": "Click",
             "param": {
                 "target_offset": [
-                    -17,
-                    -39,
-                    33,
-                    22
+                    0,
+                    -20,
+                    0,
+                    0
                 ]
             }
         },
@@ -837,7 +838,7 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 332,
+                "x": 333,
                 "y": 1417
             }
         }

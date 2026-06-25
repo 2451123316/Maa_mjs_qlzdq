@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
-            "lastSyncTime": 1782371995212,
+            "lastSyncTime": 1782385978663,
             "isDeleted": true,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -905,
-                "y": -4,
-                "zoom": 0.59
+                "x": 356,
+                "y": -479,
+                "zoom": 0.94
             },
             "filename": "临时战斗",
             "version": "v1.6.2"
@@ -69,6 +69,9 @@
         "next": [
             "确认"
         ],
+        "on_error": [
+            "下一步"
+        ],
         "$__mpe_code": {
             "position": {
                 "x": 1932,
@@ -81,6 +84,7 @@
             "关闭"
         ],
         "on_error": [
+            "开始对局",
             "判断事件"
         ],
         "$__mpe_code": {
@@ -228,6 +232,9 @@
         "next": [
             "下一步"
         ],
+        "on_error": [
+            "点击空白下一步"
+        ],
         "$__mpe_code": {
             "position": {
                 "x": 1612,
@@ -261,7 +268,8 @@
             "战斗结束确认"
         ],
         "on_error": [
-            "判断事件"
+            "确认",
+            "临时战斗"
         ],
         "$__mpe_code": {
             "position": {
@@ -326,8 +334,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2572,
-                "y": 581
+                "x": 2587,
+                "y": 574
             }
         }
     },
@@ -358,6 +366,14 @@
             "position": {
                 "x": 1294,
                 "y": 497
+            }
+        }
+    },
+    "$__mpe_external_开始对局_临时战斗": {
+        "$__mpe_code": {
+            "position": {
+                "x": 344,
+                "y": 957
             }
         }
     }

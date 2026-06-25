@@ -1,43 +1,25 @@
-<!-- markdownlint-disable MD033 MD041 -->
-<p align="center">
-  <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v1/icons/maa-logo_512x512.png" width="256" height="256" />
-</p>
+# 名将杀千里走单骑自动脚本
 
-<div align="center">
+基于 MaaFramework 的《名将杀》"千里走单骑"模式自动化脚本。感谢**啦啦啦**，**夜茝**对本项目的支持与帮助
 
-# MaaPracticeBoilerplate
+## 免责声明
 
-</div>
+1. **软件使用**：本程序旨在帮助用户便捷地享受游戏。用户在使用本程序时，应确保其行为符合当地法律法规及网络使用规定。
+2. **责任限制**：本程序及其开发者不对任何因使用或无法使用本程序造成的直接、间接、偶然、特殊及衍生的损失承担责任。这包括但不限于数据丢失、利润损失、业务中断或任何其它商业损害，无论这些损害是否基于合同、侵权或其他行为。
+3. **安全性声明**：尽管开发者已尽力确保程序的安全性，但无法保证程序完全没有缺陷或漏洞。用户应自行承担使用本程序可能带来的安全风险。
 
-本仓库为 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 所提供的项目模板，开发者可基于此模板直接创建自己的 MaaXXX 项目。
+## 交流反馈
 
-> **MaaFramework** 是基于图像识别技术、运用 [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights) 开发经验去芜存菁、完全重写的新一代自动化黑盒测试框架。
-> 低代码的同时仍拥有高扩展性，旨在打造一款丰富、领先、且实用的开源库，助力开发者轻松编写出更好的黑盒测试程序，并推广普及。
+欢迎加入 QQ 群 **1015990545** 交流反馈。
 
-## 即刻开始
+## 使用说明
 
-**请不要直接克隆本仓库！你应该通过模板创建自己的项目！**  
+1. 下载最新 Release 中的压缩包并解压
+2. 以管理员身份运行DependencySetup_依赖库安装_win.bat（不确认不安装是否能运行）
+3. 运行启动程序  MFAAvalonia.exe
+4. 根据界面提示选择控制器和任务
 
-请阅读[如何开发](./docs/zh_cn/develop/how_to_develop.md)
+## 构建
 
-向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
-
-## 生态共建
-
-MAA 正计划建设为一类项目，而非舟的单一软件。
-
-若您的项目依赖于 MaaFramework，我们欢迎您将它命名为 MaaXXX, MXA, MAX 等等。当然，这是许可而不是限制，您也可以自由选择其他与 MAA 无关的名字，完全取决于您自己的想法！
-
-同时，我们也非常欢迎您提出 PR，在 [社区项目列表](https://github.com/MaaXYZ/MaaFramework#%E7%A4%BE%E5%8C%BA%E9%A1%B9%E7%9B%AE) 中添加上您的项目！
-
-## 常见问题
-
-请阅读[常见问题](./docs/zh_cn/develop/faq.md)
-
-## 鸣谢
-
-本项目由 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 强力驱动！
-
-感谢以下开发者对本项目作出的贡献（下面链接改成你自己的项目地址）:
-
-[![Contributors](https://contrib.rocks/image?repo=MaaXYZ/MaaFramework&max=1000)](https://github.com/MaaXYZ/MaaFramework/graphs/contributors)
+参考 MaaFramework 官方文档进行构建。感谢以下开发者对本项目作出的贡献
+<https://github.com/asdfxsxxs/MAAMJS>
