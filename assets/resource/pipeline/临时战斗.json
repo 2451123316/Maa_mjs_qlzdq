@@ -3,24 +3,38 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
-            "lastSyncTime": 1782458575826,
+            "lastSyncTime": 1782641662781,
             "isDeleted": true,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -940,
-                "y": -329,
-                "zoom": 0.59
+                "x": -1884,
+                "y": -728,
+                "zoom": 0.94
             },
             "filename": "临时战斗",
             "version": "v1.6.2"
         }
     },
+    "战斗结束截图": {
+        "action": {
+            "type": "Screencap"
+        },
+        "next": [
+            "点击空白"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3078,
+                "y": 812
+            }
+        }
+    },
     "$__mpe_external_千里开局_临时战斗": {
         "$__mpe_code": {
             "position": {
-                "x": 3551,
-                "y": 873
+                "x": 3767,
+                "y": 871
             }
         }
     },
@@ -148,7 +162,8 @@
             "type": "Click"
         },
         "next": [
-            "属性变化"
+            "属性变化",
+            "战斗结束确认"
         ],
         "$__mpe_code": {
             "position": {
@@ -208,12 +223,13 @@
             "type": "Click"
         },
         "next": [
-            "千里开局"
+            "千里开局",
+            "点击空白"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3172,
-                "y": 811
+                "x": 3418,
+                "y": 798
             }
         }
     },
@@ -268,6 +284,7 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
         "timeout": 6000,
         "rate_limit": 3000,
         "next": [
@@ -275,17 +292,17 @@
             "领取奖励",
             "属性变化",
             "战斗结束确认",
-            "点击空白"
+            "点击空白",
+            "确认"
         ],
         "on_error": [
-            "确认",
             "临时战斗",
             "继续战斗"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2386,
-                "y": 1001
+                "x": 2388,
+                "y": 1011
             }
         }
     },
@@ -341,12 +358,13 @@
             "type": "Click"
         },
         "next": [
-            "点击空白"
+            "战斗结束截图",
+            "领取奖励"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2780,
-                "y": 804
+                "x": 2790,
+                "y": 769
             }
         }
     },

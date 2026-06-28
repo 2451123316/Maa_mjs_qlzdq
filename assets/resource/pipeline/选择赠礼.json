@@ -3,16 +3,32 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
-            "lastSyncTime": 1782457209026,
+            "lastSyncTime": 1782614118072,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 211,
-                "y": 38,
+                "x": 249,
+                "y": 189,
                 "zoom": 0.79
             },
             "filename": "选择赠礼",
             "version": "v1.6.2"
+        }
+    },
+    "$__mpe_external_确认_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": -70,
+                "y": 67
+            }
+        }
+    },
+    "$__mpe_external_继续战斗_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": 1137,
+                "y": 368
+            }
         }
     },
     "不拿信物": {
@@ -33,16 +49,16 @@
         "action": {
             "type": "Click"
         },
-        "on_error": [
-            "不拿信物"
-        ],
         "next": [
             "驰援排序"
         ],
+        "on_error": [
+            "不拿信物"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 332,
-                "y": 593
+                "x": 343,
+                "y": 594
             }
         }
     },
@@ -60,7 +76,32 @@
                     "信物",
                     "驰援",
                     "资助",
-                    "武将牌"
+                    "武将牌",
+                    "并肩作战"
+                ],
+                "order_by": "Expected"
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "继续战斗",
+            "信物"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 692,
+                "y": 74
+            }
+        }
+    },
+    "刘禅驰援": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "刘禅"
                 ]
             }
         },
@@ -68,12 +109,12 @@
             "type": "Click"
         },
         "next": [
-            "继续战斗"
+            "驰援排序"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 692,
-                "y": 74
+                "x": 329,
+                "y": -148
             }
         }
     },
@@ -91,11 +132,13 @@
                     "马超",
                     "吕布",
                     "关羽",
-                    "甘宁",
                     "黄忠",
-                    "赵云",
-                    "刘表"
-                ]
+                    "司马懿",
+                    "孙策",
+                    "张春华",
+                    "左慈"
+                ],
+                "order_by": "Expected"
             }
         },
         "action": {
@@ -127,12 +170,9 @@
                 "expected": [
                     "刘禅",
                     "曹丕",
-                    "孙权",
-                    "鲁肃",
-                    "曹仁",
-                    "陈宫",
-                    "孙坚"
-                ]
+                    "曹仁"
+                ],
+                "order_by": "Expected"
             }
         },
         "action": {
@@ -146,7 +186,7 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 352,
+                "x": 337,
                 "y": 321
             }
         }
@@ -167,6 +207,7 @@
             }
         },
         "next": [
+            "刘禅驰援",
             "必拿赠礼",
             "必拿驰援",
             "不拿信物",
@@ -197,36 +238,23 @@
                     "驰援",
                     "资助",
                     "武将牌",
-                    "信物"
-                ]
+                    "信物",
+                    "并肩作战"
+                ],
+                "order_by": "Expected"
             }
         },
         "action": {
             "type": "Click"
         },
         "next": [
-            "继续战斗"
+            "继续战斗",
+            "驰援排序"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 737,
-                "y": 487
-            }
-        }
-    },
-    "$__mpe_external_继续战斗_选择赠礼": {
-        "$__mpe_code": {
-            "position": {
-                "x": 1137,
-                "y": 368
-            }
-        }
-    },
-    "$__mpe_external_确认_选择赠礼": {
-        "$__mpe_code": {
-            "position": {
-                "x": -70,
-                "y": 67
+                "x": 687,
+                "y": 410
             }
         }
     }
