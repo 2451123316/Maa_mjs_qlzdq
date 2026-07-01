@@ -94,7 +94,7 @@
     "agent":{  
         "child_exec": "python",  
         "child_args": ["../agent/custom/gift_action.py"]  
-    }  ,
+    },
     "preset": [
         {
             "name": "千里走单骑",

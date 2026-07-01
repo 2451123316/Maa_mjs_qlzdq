@@ -14,7 +14,6 @@ except ModuleNotFoundError as e:
 
 from configure import configure_ocr_model
 
-
 working_dir = Path(__file__).parent.parent.resolve()
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
@@ -98,7 +97,6 @@ def install_deps():
         )
 
 
-
 def install_resource():
 
     configure_ocr_model()
@@ -133,18 +131,39 @@ def install_chores():
     )
 
 
-def install_agent():
+def install_agent(os_name):
     shutil.copytree(
         working_dir / "agent",
         install_path / "agent",
         dirs_exist_ok=True,
     )
 
+    with open(install_path / "interface.json", "r", encoding="utf-8") as f:
+        interface = jsonc.load(f)
+
+    # 根据平台指向嵌入式 Python
+    if os_name == "win":
+        interface["agent"]["child_exec"] = r"python/python.exe"
+    elif os_name == "macos":
+        interface["agent"]["child_exec"] = r"python/bin/python3"
+    elif os_name == "linux":
+        interface["agent"]["child_exec"] = r"python3"  # Linux 无嵌入式，用 venv
+    elif os_name == "android":
+        return  # ← 新增，Android 不用 Python agent
+    else:
+        print(f"Unsupported OS: {os_name}")
+        sys.exit(1)
+
+    interface["agent"]["child_args"] = ["-u", r"agent/custom/gift_action.py"]
+
+    with open(install_path / "interface.json", "w", encoding="utf-8") as f:
+        jsonc.dump(interface, f, ensure_ascii=False, indent=4)
+
 
 if __name__ == "__main__":
     install_deps()
     install_resource()
     install_chores()
-    install_agent()
+    install_agent(os_name)
 
     print(f"Install to {install_path} successfully.")

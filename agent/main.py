@@ -1,19 +1,415 @@
+"""
+赠礼选择 Agent — 状态管理
+=======================
+全局变量：
+  _claimed_cat1: set[str]   — 已拿到信物并排除的武将名
+  _claimed_cat2: set[str]   — 已拿到"驰援"并排除的武将名
+"""
+
+maa
+from datetime import datetime
+import json
+import os
 import sys
+import threading
+import time
 
 from maa.agent.agent_server import AgentServer
-from maa.toolkit import Toolkit
-import custom
-import my_action
-import my_reco
+from maa.custom_action import CustomAction
+from maa.context import Context
+from maa.pipeline import JRecognitionType, JOCR
+import cv2
+
+from maa.agent.agent_server import AgentServer
+from maa.custom_action import CustomAction
+from maa.context import Context
+from maa.tasker import Tasker
+
+# 默认武将列表（当所有来源都为空时回退）
+CAT1_DEFAULT = [
+    "韩信",
+    "马超",
+    "吕布",
+    "关羽",
+    "张春华",
+    "黄忠",
+    "司马懿",
+    "孙策",
+]
+CAT2_DEFAULT = ["刘禅", "马超", "曹丕", "萧何"]
+
+# 本地配置文件的路径（与当前 py 同目录）
+CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(CONFIG_DIR, "gift_config.json")
+
+# ==================== 全局状态 ====================
+
+_claimed_cat1: set[str] = set()
+_claimed_cat2: set[str] = set()
+_claimed_cat1_lock = threading.Lock()
+_claimed_cat2_lock = threading.Lock()
+
+
+# ==================== 辅助函数 ====================
+
+
+# 读取自定义赠礼默认配置
+def _read_config() -> dict | None:
+    """读取 gift_config.json，失败或不存在时返回 None"""
+    if not os.path.exists(CONFIG_PATH):
+        return None
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+# 识别自定义赠礼
+def _parse_list(raw: str, default: list[str]) -> list[str]:
+    """
+    把 "马超,吕布,关羽" 格式的逗号分隔字符串解析为列表
+    raw 为空或非字符串时返回 default 的副本
+    """
+    if not raw or not isinstance(raw, str):
+        return list(default)
+    items = [x.strip() for x in raw.split(",") if x.strip()]
+    return items if items else list(default)
+
+
+# 获取动态赠礼列表
+def _get_active_list(category: str, list_str: str = "") -> list[str]:
+    """
+    获取排除了已领取武将后的活跃列表（用于 OCR expected）。
+    优先级：list_str（来自 UI） > gift_config.json > 代码默认列表
+    """
+    if list_str:
+        # 优先级 1：用户通过 UI 输入的列表（最优先）
+        full = _parse_list(
+            list_str, CAT1_DEFAULT if category == "cat1" else CAT2_DEFAULT
+        )
+    else:
+        # 优先级 2：从本地配置文件中读取
+        config = _read_config()
+        if config:
+            key = "cat1_list" if category == "cat1" else "cat2_list"
+            full = _parse_list(
+                config.get(key, ""),
+                CAT1_DEFAULT if category == "cat1" else CAT2_DEFAULT,
+            )
+        else:
+            # 优先级 3：代码内置默认列表
+            full = CAT1_DEFAULT if category == "cat1" else CAT2_DEFAULT
+
+    # 排除已领取的武将（加锁读取）
+    claimed = _claimed_cat1 if category == "cat1" else _claimed_cat2
+    lock = _claimed_cat1_lock if category == "cat1" else _claimed_cat2_lock
+    with lock:
+        return [n for n in full if n not in claimed]
+
+
+# 识别选择赠礼
+def _ocr_active_general(context: Context, category: str, list_str: str = ""):
+    """
+    在底部武将选择栏 ([179, 509, 929, 49]) 做 OCR，
+    返回最佳匹配的 OCRResult，没匹配到返回 None。
+    """
+    active = _get_active_list(category, list_str)
+    if not active:
+        return None
+
+    try:
+        image = context.tasker.controller.cached_image
+    except RuntimeError:
+        return None
+
+    # 主动调用 OCR 识别
+    reco = context.run_recognition(
+        "ocr",
+        image,
+        {
+            "ocr": {
+                "recognition": "OCR",
+                "roi": [179, 509, 929, 49],
+                "expected": active,
+                "order_by": "Expected",
+            }
+        },
+    )
+
+    if reco and reco.hit and reco.best_result and hasattr(reco.best_result, "text"):
+        return reco.best_result
+    return None
+
+
+# 点击赠礼
+def _click_and_wait(context, box):
+    cx = box[0] + box[2] // 2
+    cy = box[1] + box[3] // 2
+    context.tasker.controller.post_click(cx, cy).wait()
+
+
+# 截图识别
+def _poll_ocr(context, roi, expected, timeout=6.0, interval=0.2):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        context.tasker.controller.post_screencap().wait()
+        try:
+            image = context.tasker.controller.cached_image
+        except RuntimeError:
+            time.sleep(interval)
+            continue
+        reco = context.run_recognition(
+            "_poll",
+            image,
+            {
+                "_poll": {
+                    "recognition": "OCR",
+                    "roi": roi,
+                    "expected": expected,
+                    "order_by": "Expected",
+                }
+            },
+        )
+        if reco and reco.hit and reco.best_result:
+            return reco.best_result
+        time.sleep(interval)
+    return None
+
+
+# 保存截图
+@AgentServer.custom_action("save_reward_screenshot")
+class SaveRewardScreenshot(CustomAction):
+    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
+        # 定义 ROI 范围
+        roi = [544, 596, 192, 62]
+        try:
+            # 获取当前截图
+            image = context.tasker.controller.cached_image
+        except RuntimeError:
+            print("[RewardScreenshot] 获取截图失败")
+            return False
+        # 使用 OCR 识别"领取奖励"
+        reco = context.run_recognition(
+            "check_reward",
+            image,
+            {
+                "check_reward": {
+                    "recognition": "OCR",
+                    "roi": roi,
+                    "expected": ["领取奖励"],
+                }
+            },
+        )
+        # 如果识别到"领取奖励"，保存截图
+        if reco and reco.hit:
+            # 创建目录
+            reward_dir = os.path.join(CONFIG_DIR, "logs", "奖励")
+            os.makedirs(reward_dir, exist_ok=True)
+
+            # 生成文件名
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{timestamp}_领取奖励.png"
+            filepath = os.path.join(reward_dir, filename)
+
+            # 保存图片
+            cv2.imwrite(filepath, image)
+            print(f"[RewardScreenshot] 截图已保存: {filepath}")
+            return True
+
+        return False
+
+
+# 限制冲榜
+@AgentServer.custom_action("CheckNumberAndStop")
+class CheckNumberAndStop(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> bool:
+        # 获取当前截图
+        image = context.tasker.controller.cached_image
+
+        # 使用 OCR 识别左上角数字
+        reco_detail = context.run_recognition_direct(
+            JRecognitionType.OCR,
+            JOCR(
+                roi=[239, 45, 42, 49],
+                expected=[],  # 可以留空匹配所有数字
+            ),
+            image,
+        )
+
+        if reco_detail and reco_detail.hit:
+            # 从识别结果中提取数字文本
+            text = reco_detail.best_result.text
+            # print("超过限制65，不允许冲榜")
+
+            try:
+                # 尝试将文本转换为数字
+                number = int(text)
+                if number > 65:
+                    print("超过限制65，不允许冲榜")
+                    # 停止整个任务
+                    context.tasker.post_stop()
+                    return True
+            except ValueError:
+                print("这层有bug，请换一层")
+        return True
+
+
+# 选择赠礼
+@AgentServer.custom_action("handle_gift_selection")
+class HandleGiftSelection(CustomAction):
+    def run(self, context, argv):
+        params = (
+            json.loads(argv.custom_action_param)
+            if isinstance(argv.custom_action_param, str)
+            else (argv.custom_action_param or {})
+        )
+        cat1_list = params.get("cat1_list", "")
+        cat2_list = params.get("cat2_list", "")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{current_time}] [GiftAgent] 原始 cat1_list: {cat1_list}")
+        print(f"[{current_time}] [GiftAgent] 原始 cat2_list: {cat2_list}")
+        print(f"[{current_time}] [GiftAgent] 已领取 cat1: {_claimed_cat1}")
+        print(f"[{current_time}] [GiftAgent] 已领取 cat2: {_claimed_cat2}")
+
+        context.tasker.controller.post_screencap().wait()
+        result = _ocr_active_general(context, "cat1", cat1_list)
+        if result:
+            _click_and_wait(context, result.box)
+            item = _poll_ocr(context, [522, 171, 171, 377], ["信物"])
+            if item:
+                _click_and_wait(context, item.box)
+                with _claimed_cat1_lock:
+                    _claimed_cat1.add(result.text)
+            else:
+                # 添加 fallback：如果没有信物，尝试其他选项
+                fallback = _poll_ocr(
+                    context,
+                    [522, 171, 171, 377],
+                    ["驰援", "资助", "武将牌", "并肩作战"],
+                    timeout=2,
+                )
+                if fallback:
+                    _click_and_wait(context, fallback.box)
+            time.sleep(0.5)
+            return True
+
+        context.tasker.controller.post_screencap().wait()
+        result = _ocr_active_general(context, "cat2", cat2_list)
+        if result:
+            _click_and_wait(context, result.box)
+            item = _poll_ocr(context, [522, 171, 171, 377], ["驰援"])
+            if item:
+                _click_and_wait(context, item.box)
+                with _claimed_cat2_lock:
+                    _claimed_cat2.add(result.text)
+            else:
+                fallback = _poll_ocr(
+                    context,
+                    [522, 171, 171, 377],
+                    ["资助", "武将牌", "信物", "并肩作战"],
+                    timeout=2,
+                )
+                if fallback:
+                    _click_and_wait(context, fallback.box)
+            time.sleep(0.5)
+            return True
+
+        fallback = _poll_ocr(context, [531, 504, 220, 51], ["赠礼"], timeout=3)
+        if fallback:
+            _click_and_wait(context, fallback.box)
+            sort = _poll_ocr(
+                context,
+                [522, 171, 171, 377],
+                ["资助", "武将牌", "驰援", "信物", "并肩作战"],
+                timeout=3,
+            )
+            if sort:
+                _click_and_wait(context, sort.box)
+                time.sleep(0.5)
+        return True
+
+
+# 赠礼选择失败
+@AgentServer.custom_action("handle_gift_fallback")
+class HandleGiftFallback(CustomAction):
+    """
+    赠礼选择失败时的 fallback 处理
+    识别屏幕上的选项（资助、武将牌、驰援、信物、并肩作战）并点击
+    """
+
+    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{current_time}] [GiftFallback] 开始执行 fallback 处理")
+
+        # 先尝试点击"赠礼"按钮
+        fallback = _poll_ocr(context, [531, 504, 220, 51], ["赠礼"], timeout=3)
+        if fallback:
+            _click_and_wait(context, fallback.box)
+            # 等待界面加载
+            time.sleep(1.0)
+
+            # 识别并点击可用选项
+            sort = _poll_ocr(
+                context,
+                [522, 171, 171, 377],
+                ["资助", "武将牌", "驰援", "信物", "并肩作战"],
+                timeout=3,
+            )
+            if sort:
+                _click_and_wait(context, sort.box)
+                time.sleep(0.5)
+                print(f"[{current_time}] [GiftFallback] 成功选择选项: {sort.text}")
+                return True
+            else:
+                print(f"[{current_time}] [GiftFallback] 未识别到任何选项")
+        else:
+            print(f"[{current_time}] [GiftFallback] 未识别到'赠礼'按钮")
+
+        return False
+
+
+# 重置赠礼标记
+@AgentServer.custom_action("reset_gift_state")
+class ResetGiftState(CustomAction):
+    """
+    重置赠礼状态 — 每次千里开局选将后执行一次。
+    pipeline 中配 DirectHit + Custom，不依赖任何前序识别结果。
+    """
+
+    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
+        with _claimed_cat1_lock:
+            _claimed_cat1.clear()
+        with _claimed_cat2_lock:
+            _claimed_cat2.clear()
+        print(f"[Reset] 重置赠礼状态，清空已领取武将")
+        return True
 
 
 def main():
-    Toolkit.init_option("./")
+    # 获取当前脚本路径并设置工作目录
+    current_file_path = os.path.abspath(__file__)
+    current_script_dir = os.path.dirname(current_file_path)
+
+    # 将脚本所在目录设置为工作目录
+    if os.getcwd() != current_script_dir:
+        os.chdir(current_script_dir)
+    print(f"[GiftAgent] set cwd: {os.getcwd()}")
+
+    # 将脚本目录添加到 sys.path，以便导入模块
+    if current_script_dir not in sys.path:
+        sys.path.insert(0, current_script_dir)
+
+    Tasker.set_log_dir("./debug")
 
     if len(sys.argv) < 2:
-        print("Usage: python main.py <socket_id>")
+        print("Usage: python gift_agent.py <socket_id>")
         print("socket_id is provided by AgentIdentifier.")
-        sys.exit(1)
+        exit(1)
 
     socket_id = sys.argv[-1]
 
@@ -23,4 +419,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    version = sys.argv[1]
+    os_name = sys.argv[2]
+    arch = sys.argv[3]
+    install_maafw(os_name, arch)
+    install_resource(version)
+    install_chores()
+    install_agent(os_name)

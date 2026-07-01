@@ -66,16 +66,81 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       is_release: ${{ steps.set_tag.outputs.is_release }}
       is_prerelease: ${{ steps.set_tag.outputs.is_prerelease }}
+  windows:
+    needs: meta
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-  install:
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          fileName: "MAA-win-${{ matrix.arch }}*"
+          latest: ${{ env.MAAFW_VERSION == '' }}
+          tag: ${{ env.MAAFW_VERSION }}
+          out-file-path: "deps"
+          extract: true
+
+      - name: Download MFAAvalonia
+        id: download_mfa
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: SweetSmellFox/MFAAvalonia
+          fileName: "MFAAvalonia-*-win-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
+          latest: ${{ env.MFAA_VERSION == '' }}
+          tag: ${{ env.MFAA_VERSION }}
+          out-file-path: "MFA"
+          extract: true
+
+      - name: Clean up MFAAvalonia archive
+        shell: bash
+        run: |
+          ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mfa.outputs.downloaded_files)[0] }}"
+          rm -f "${ARCHIVE_FILE_PATH}"
+
+      - name: Remove built-in runtime in MFA
+        shell: bash
+        run: |
+          rm -rf MFA/runtimes
+
+      # ★ 新增 2 步
+      - name: Setup Embedded Python
+        shell: bash
+        run: python tools/ci/setup_embed_python.py
+
+      - name: Download Python dependencies
+        shell: bash
+        run: ./install/python/python.exe tools/ci/download_deps.py --deps-dir install/deps
+
+      - name: Install
+        shell: bash
+        run: |
+          mkdir -p install
+          cp -r MFA/. install/ 2>/dev/null || true
+          # rsync -av --ignore-existing MFA/ install/
+
+          # 用嵌入式 Python 跑 install.py
+          ./install/python/python.exe tools/install.py ${{ needs.meta.outputs.tag }} win ${{ matrix.arch }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Maa_mjs_qlzdq-win-${{ matrix.arch }}
+          path: "install"
+  other:
     needs: meta
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [win, macos, linux, android]
+        os: [macos, linux, android] # ← 去掉了 win
         arch: [aarch64, x86_64]
       fail-fast: false
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -97,7 +162,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: SweetSmellFox/MFAAvalonia
-          fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
+          fileName: "MFAAvalonia-*-${{ (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
           latest: ${{ env.MFAA_VERSION == '' }}
           tag: ${{ env.MFAA_VERSION }}
           out-file-path: "MFA"
@@ -109,7 +174,6 @@ jobs:
         run: |
           ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mfa.outputs.downloaded_files)[0] }}"
           rm -f "${ARCHIVE_FILE_PATH}"
-          echo "Archive cleanup command executed for MFAAvalonia."
 
       - name: Remove built-in runtime in MFA
         if: matrix.os != 'android'
@@ -122,17 +186,10 @@ jobs:
         run: |
           if [[ "${{ matrix.os }}" != "android" ]]; then
             if [ -d "MFA" ]; then
-              echo "Copying MFA files to install directory..."
               mkdir -p install
               rsync -av --ignore-existing MFA/ install/
-              echo "MFA files copied successfully."
-            else
-              echo "MFA directory not found, skipping copy."
             fi
-          else
-            echo "Skipping copy MFA for Android."
           fi
-
           cd tools/
           python -m pip install -r ./requirements.txt
           python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
@@ -171,7 +228,7 @@ jobs:
 
   release:
     if: ${{ needs.meta.outputs.is_release == 'true' }}
-    needs: [meta, install, changelog]
+    needs: [meta, windows, other, changelog]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
