@@ -6,7 +6,7 @@
     "description": "这是一个名将杀千里走单骑自动脚本。",
     "contact": "QQ群: 1015990545",
     "license": "MIT",
-    "welcome": "../assets/resource/announcement/公告副栏.md",
+    "welcome": "./resource/announcement/公告副栏.md",
     
     "github": "https://github.com/2451123316/Maa_mjs_qlzdq",
     "version": "1.0.3",
