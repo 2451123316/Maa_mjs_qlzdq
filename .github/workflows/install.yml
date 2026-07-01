@@ -120,8 +120,8 @@ jobs:
         run: ./install/python/python.exe tools/ci/download_deps.py --deps-dir install/deps
 
         name: Install Python dependencies into embedded Python
-                shell: bash
-                run: ./install/python/python.exe -m pip install --no-index --find-links install/deps maa
+        shell: bash
+        run: ./install/python/python.exe -m pip install --no-index --find-links install/deps maa
 
       - name: Install
         shell: bash
