@@ -47,12 +47,19 @@
         "next": [
             "继续战斗"
         ],
+        "on_error": ["赠礼选择失败"],
         "$__mpe_code": {
             "position": {
                 "x": 224,
                 "y": 318
             }
         }
+    },
+    "赠礼选择失败": {  
+        "recognition": "DirectHit",  
+        "action": "Custom",  
+        "custom_action": "handle_gift_fallback",
+        "next": ["继续战斗"]
     },
     "选择赠礼": {
         "recognition": {

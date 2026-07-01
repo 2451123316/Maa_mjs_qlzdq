@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
-            "lastSyncTime": 1782698132422,
+            "lastSyncTime": 1782829862431,
             "isDeleted": true,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -1290,
-                "y": -236,
-                "zoom": 0.59
+                "x": -993,
+                "y": -141,
+                "zoom": 0.6
             },
             "filename": "临时战斗",
-            "version": "v1.7.0"
+            "version": "v1.7.1"
         }
     },
     "$__mpe_external_千里开局_临时战斗": {
@@ -280,11 +280,11 @@
         "rate_limit": 3000,
         "next": [
             "选择赠礼",
-            "领取奖励",
             "属性变化",
             "战斗结束确认",
             "点击空白",
-            "确认"
+            "确认",
+            "领取奖励截图"
         ],
         "on_error": [
             "临时战斗",
@@ -355,8 +355,40 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2794,
-                "y": 729
+                "x": 2967,
+                "y": 694
+            }
+        }
+    },
+    "领取奖励截图": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    544,
+                    596,
+                    192,
+                    62
+                ],
+                "expected": [
+                    "领取奖励"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "save_reward_screenshot"
+            }
+        },
+        "next": [
+            "领取奖励",
+            "点击空白"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2636,
+                "y": 865
             }
         }
     },

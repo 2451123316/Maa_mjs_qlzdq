@@ -6,7 +6,7 @@
     "description": "这是一个名将杀千里走单骑自动脚本。",
     "contact": "QQ群: 1015990545",
     "license": "MIT",
-    "welcome": "本软件纯免费，如若付费购买请立即退款，交流群1015990545",
+    "welcome": "../assets/resource/announcement/公告副栏.md",
     
     "github": "https://github.com/2451123316/Maa_mjs_qlzdq",
     "version": "1.0.3",
@@ -45,33 +45,56 @@
             "label": "选择武将",
             "description": "选将阶段自动选择的武将",
             "inputs": [
-                
                 {
-                    "name": "选将吕布",
+                    "name": "选将",
                     "label": "默认吕布（速度快），填入的武将必须在选将的第一页",
-                    "default": "吕布"
+                    "default": "吕布",
+                    "pipeline_type": "string"
                 }
-            ]
-        },
-        "cat1_list": {
-        "type": "input",
-        "label": "必拿信物武将列表",
-        "description": "英文逗号分隔，不填则使用默认列表",
-        "inputs": [{
-            "name": "cat1_list",
-            "label": "信物武将（逗号分隔）",
-            "default": "马超,吕布,关羽,张春华,黄忠,司马懿,孙策"
-        }]},
-        "cat2_list": {
-            "type": "input",
-            "label": "必拿驰援武将列表",
-            "description": "英文逗号分隔，不填则使用默认列表",
-            "inputs": [{
-                "name": "cat2_list",
-                "label": "驰援武将（逗号分隔）",
-                "default": "刘禅,曹丕"
-            }]}
+            ],  
+            "pipeline_override": {    
+                "自定义选将": {    
+                    "recognition": "OCR",  
+                    "roi": [100, 506, 1107, 173],    
+                    "expected": "{选将}"    
+                }    
+            }
+    },"赠礼配置": {  
+        "type": "input",  
+        "label": "赠礼武将配置",  
+        "description": "配置必拿信物和驰援武将列表",  
+        "inputs": [  
+            {  
+                "name": "cat1_list",  
+                "label": "信物武将（逗号分隔）",  
+                "default": "韩信,马超,吕布,关羽,张春华,黄忠,司马懿,孙策",  
+                "pipeline_type": "string"  
+            },  
+            {  
+                "name": "cat2_list",  
+                "label": "驰援武将（逗号分隔）",  
+                "default": "刘禅,萧何,马超,曹丕",  
+                "pipeline_type": "string"  
+            }  
+        ],  
+        "pipeline_override": {  
+            "动态选择赠礼": {  
+                "action": {  
+                    "type": "Custom",  
+                    "custom_action": "handle_gift_selection",  
+                    "custom_action_param": {  
+                        "cat1_list": "{cat1_list}",  
+                        "cat2_list": "{cat2_list}"  
+                    }  
+                }  
+            }  
+        }  
+    }  
     },
+    "agent":{  
+        "child_exec": "python",  
+        "child_args": ["../agent/custom/gift_action.py"]  
+    }  ,
     "preset": [
         {
             "name": "千里走单骑",
@@ -92,18 +115,19 @@
         {
             "name": "千里走单骑入口（二选一）",
             "entry": "千里走单骑",
-            "option": ["选将","cat1_list", "cat2_list"],
+            "option": ["选将","赠礼配置"],
             "description": "千里走单骑入口：在千里走单骑主页使用，可一键全自动选将开打，\ncat1是自定义选信物，用英文逗号,隔开，cat2是自定义选驰援，用英文逗号,隔开\n本软件纯免费，如若付费购买请立即退款，交流群1015990545"
         },
         {
             "name": "继续战斗入口（二选一）",
             "entry": "继续战斗",
-            "option": ["选将","cat1_list", "cat2_list"],
+            "option": ["选将","赠礼配置"],
             "description": "继续战斗入口：在继续战斗内选择战斗或者事件时使用，可接着继续全自动打，\ncat1是自定义选信物，用英文逗号,隔开，cat2是自定义选驰援，用英文逗号,隔开\n本软件纯免费，如若付费购买请立即退款，交流群1015990545"
         },
         {
             "name": "选择赠礼（请勿选择）",
             "entry": "选择赠礼",
+            "option": ["赠礼配置"],
             "description": "调试所用，请勿添加，\n本软件纯免费，如若付费购买请立即退款，交流群1015990545"
         }
     ]
