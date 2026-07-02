@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782934945584,
+            "lastSyncTime": 1782977488749,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\继续挑战.json",
             "savedViewport": {
-                "x": 24,
-                "y": -421,
-                "zoom": 0.54
+                "x": 16,
+                "y": -285,
+                "zoom": 0.5
             },
             "filename": "继续挑战",
             "version": "v1.7.2"
@@ -250,7 +250,8 @@
             "type": "Click"
         },
         "next": [
-            "继续战斗"
+            "继续战斗",
+            "属性变化"
         ],
         "$__mpe_code": {
             "position": {

@@ -146,6 +146,7 @@ def _click_general_until_gone(context, category, list_str):
     """
     last_name = None
     for _ in range(15):
+        context.tasker.controller.post_screencap().wait()
         result = _ocr_active_general(context, category, list_str)
         if not result:
             break  # 武将已消失 → 点击生效了
@@ -164,12 +165,8 @@ def _click_and_wait(context, box):
 
 # 循环点击验证
 def _click_until_gone(context, roi, expected, click_delay=0.5, max_tries=15):
-    """
-    循环 OCR → 点击 → 验证目标消失。
-    expected 列表里的目标任意一个出现就点，点到它消失为止。
-    返回最后一次点击到的文本（用于日志），从未出现过则返回 None。
-    """
     last_text = None
+    found_once = False
     for _ in range(max_tries):
         context.tasker.controller.post_screencap().wait()
         try:
@@ -190,9 +187,13 @@ def _click_until_gone(context, roi, expected, click_delay=0.5, max_tries=15):
             },
         )
         if not reco or not reco.hit or not reco.best_result:
-            break  # 目标已消失 → 点击生效了
+            if found_once:
+                break
+            time.sleep(0.2)
+            continue
         _click_and_wait(context, reco.best_result.box)
         last_text = reco.best_result.text
+        found_once = True
         time.sleep(click_delay)
     return last_text
 
@@ -298,6 +299,7 @@ class CheckNumberAndStop(CustomAction):
                 # 尝试将文本转换为数字
                 number = int(text)
                 if number > 65:
+                    print(f"{number}")
                     print("超过限制65，不允许冲榜")
                     # 停止整个任务
                     context.tasker.post_stop()
@@ -371,7 +373,7 @@ class HandleGiftSelection(CustomAction):
                 _click_until_gone(
                     context,
                     [522, 171, 171, 377],
-                    ["资助", "武将牌", "信物", "并肩作战"],
+                    ["资助", "并肩作战", "武将牌", "信物"],
                     0.5,
                     10,
                 )
@@ -385,7 +387,7 @@ class HandleGiftSelection(CustomAction):
                 _click_until_gone(
                     context,
                     [522, 171, 171, 377],
-                    ["资助", "武将牌", "驰援", "信物", "并肩作战"],
+                    ["驰援", "资助", "并肩作战", "武将牌", "信物"],
                     0.5,
                     10,
                 )
@@ -417,7 +419,7 @@ class HandleGiftFallback(CustomAction):
             sort = _poll_ocr(
                 context,
                 [522, 171, 171, 377],
-                ["资助", "武将牌", "驰援", "信物", "并肩作战"],
+                ["资助", "驰援", "并肩作战", "武将牌", "信物"],
                 timeout=3,
             )
             if sort:
