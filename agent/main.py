@@ -73,6 +73,17 @@ def _parse_list(raw: str, default: list[str]) -> list[str]:
     return items if items else list(default)
 
 
+def _normalize_general_name(name: str) -> str:
+    """把 OCR 到的“赵云赠礼”还原为用户配置里的“赵云”。"""
+    if not isinstance(name, str):
+        return ""
+    normalized = name.strip()
+    for suffix in ("赠礼",):
+        if normalized.endswith(suffix):
+            normalized = normalized[: -len(suffix)].strip()
+    return normalized
+
+
 # 获取动态赠礼列表
 def _get_active_list(category: str, list_str: str = "") -> list[str]:
     """
@@ -101,7 +112,8 @@ def _get_active_list(category: str, list_str: str = "") -> list[str]:
     claimed = _claimed_cat1 if category == "cat1" else _claimed_cat2
     lock = _claimed_cat1_lock if category == "cat1" else _claimed_cat2_lock
     with lock:
-        return [n for n in full if n not in claimed]
+        claimed_names = {_normalize_general_name(n) for n in claimed}
+        return [n for n in full if _normalize_general_name(n) not in claimed_names]
 
 
 # 识别选择赠礼
@@ -350,33 +362,58 @@ class HandleGiftSelection(CustomAction):
             name = _click_general_until_gone(context, "cat1", cat1_list)
             if name:
                 print(f"[{current_time}] [GiftAgent] cat1 选中 {name}")
-                # 内层：选奖励，先找信物，找不到就 fallback
-                _click_until_gone(context, [522, 171, 171, 377], ["信物"], 0.5, 15)
-                _click_until_gone(
-                    context,
-                    [522, 171, 171, 377],
-                    ["驰援", "资助", "武将牌", "并肩作战"],
-                    0.5,
-                    10,
+                # cat1 只在确实点到“信物”后才标记已领取。
+                reward = _click_until_gone(
+                    context, [522, 171, 171, 377], ["信物"], 0.5, 15
                 )
-                with _claimed_cat1_lock:
-                    _claimed_cat1.add(name)
+                if reward:
+                    claimed_name = _normalize_general_name(name)
+                    with _claimed_cat1_lock:
+                        _claimed_cat1.add(claimed_name)
+                    print(
+                        f"[{current_time}] [GiftAgent] cat1 {claimed_name} 已选中奖励: {reward}"
+                    )
+                else:
+                    fallback_reward = _click_until_gone(
+                        context,
+                        [522, 171, 171, 377],
+                        ["驰援", "资助", "武将牌", "并肩作战"],
+                        0.5,
+                        10,
+                    )
+                    print(
+                        f"[{current_time}] [GiftAgent] cat1 {name} 未找到信物，"
+                        f"保底奖励: {fallback_reward or '无'}"
+                    )
                 continue
 
             # ========== cat2 分支 ==========
             name = _click_general_until_gone(context, "cat2", cat2_list)
             if name:
                 print(f"[{current_time}] [GiftAgent] cat2 选中 {name}")
-                _click_until_gone(context, [522, 171, 171, 377], ["驰援"], 0.5, 15)
-                _click_until_gone(
-                    context,
-                    [522, 171, 171, 377],
-                    ["资助", "武将牌", "信物", "并肩作战"],
-                    0.5,
-                    10,
+                # cat2 只在确实点到“驰援”后才标记已领取。
+                reward = _click_until_gone(
+                    context, [522, 171, 171, 377], ["驰援"], 0.5, 15
                 )
-                with _claimed_cat2_lock:
-                    _claimed_cat2.add(name)
+                if reward:
+                    claimed_name = _normalize_general_name(name)
+                    with _claimed_cat2_lock:
+                        _claimed_cat2.add(claimed_name)
+                    print(
+                        f"[{current_time}] [GiftAgent] cat2 {claimed_name} 已选中奖励: {reward}"
+                    )
+                else:
+                    fallback_reward = _click_until_gone(
+                        context,
+                        [522, 171, 171, 377],
+                        ["资助", "武将牌", "信物", "并肩作战"],
+                        0.5,
+                        10,
+                    )
+                    print(
+                        f"[{current_time}] [GiftAgent] cat2 {name} 未找到驰援，"
+                        f"保底奖励: {fallback_reward or '无'}"
+                    )
                 continue
 
             # ========== fallback 分支 ==========
