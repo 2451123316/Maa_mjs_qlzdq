@@ -16,8 +16,11 @@ import time
 from maa.agent.agent_server import AgentServer
 from maa.custom_action import CustomAction
 from maa.context import Context
-from maa.pipeline import JRecognitionType, JOCR
-import cv2
+try:
+    from maa.pipeline import JRecognitionType, JOCR
+except ImportError:
+    JRecognitionType = None
+    JOCR = None
 from maa.tasker import Tasker
 
 # 默认武将列表（当所有来源都为空时回退）
@@ -250,6 +253,12 @@ class SaveRewardScreenshot(CustomAction):
         )
         # 如果识别到"领取奖励"，保存截图
         if reco and reco.hit:
+            try:
+                import cv2
+            except ImportError:
+                print("[RewardScreenshot] 未安装 cv2，跳过截图保存")
+                return True
+
             # 创建目录
             reward_dir = os.path.join(CONFIG_DIR, "logs", "奖励")
             os.makedirs(reward_dir, exist_ok=True)
@@ -275,6 +284,10 @@ class CheckNumberAndStop(CustomAction):
         context: Context,
         argv: CustomAction.RunArg,
     ) -> bool:
+        if JRecognitionType is None or JOCR is None:
+            print("[CheckNumberAndStop] 当前 Maa Python API 不支持 maa.pipeline，跳过检查")
+            return True
+
         # 获取当前截图
         image = context.tasker.controller.cached_image
 

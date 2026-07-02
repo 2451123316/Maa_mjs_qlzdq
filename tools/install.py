@@ -138,7 +138,10 @@ def install_agent(os_name):
 
     # 根据平台指向嵌入式 Python
     if os_name == "win":
-        interface["agent"]["child_exec"] = r"python/python.exe"
+        embed_python = install_path / "python" / "python.exe"
+        interface["agent"]["child_exec"] = (
+            r"python/python.exe" if embed_python.exists() else sys.executable
+        )
     elif os_name == "macos":
         interface["agent"]["child_exec"] = r"python/bin/python3"
     elif os_name == "linux":
