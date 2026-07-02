@@ -17,8 +17,12 @@ from maa.agent.agent_server import AgentServer
 from maa.custom_action import CustomAction
 from maa.context import Context
 from maa.pipeline import JRecognitionType, JOCR
-import cv2
-from maa.tasker import Tasker
+
+try:
+    from maa.pipeline import JRecognitionType, JOCR
+except ImportError:
+    JRecognitionType = None
+    JOCR = None
 
 # 默认武将列表（当所有来源都为空时回退）
 CAT1_DEFAULT = [
